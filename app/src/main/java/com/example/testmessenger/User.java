@@ -9,11 +9,14 @@ public class User {
     private boolean isOnline;
 
     public User(boolean isOnline, int age, String lastName, String name, String id) {
-        this.isOnline = isOnline;
-        this.age = age;
-        this.lastName = lastName;
-        this.name = name;
         this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.isOnline = isOnline;
+    }
+
+    public User() {
     }
 
     public String getId() {
@@ -34,5 +37,16 @@ public class User {
 
     public boolean isOnline() {
         return isOnline;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", isOnline=" + isOnline +
+                '}';
     }
 }

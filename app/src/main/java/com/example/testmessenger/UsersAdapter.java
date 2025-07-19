@@ -43,11 +43,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         String userInfo = String.format("%s %s, %s", user.getName(), user.getLastName(), user.getAge());
         holder.textViewUserInfo.setText(userInfo);
         int bgResId;
-        if (user.isOnline()) {
-            bgResId = R.drawable.circle_green;
-        } else {
-            bgResId = R.drawable.circle_red;
-        }
+        bgResId = (user.isOnline()) ? R.drawable.circle_green : R.drawable.circle_red;
         Drawable background = ContextCompat.getDrawable(holder.itemView.getContext(), bgResId);
         holder.onlineStatus.setBackground(background);
         holder.itemView.setOnClickListener(new View.OnClickListener() {

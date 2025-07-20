@@ -26,13 +26,6 @@ public class UsersViewModel extends ViewModel {
     private MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
     private MutableLiveData<List<User>> users = new MutableLiveData<>();
 
-    public LiveData<FirebaseUser> getUser() {
-        return user;
-    }
-
-    public LiveData<List<User>> getUsers() {
-        return users;
-    }
 
     public UsersViewModel() {
         auth = FirebaseAuth.getInstance();
@@ -51,13 +44,13 @@ public class UsersViewModel extends ViewModel {
                 if (currentUser == null) {
                     return;
                 }
-                List<User> usersFromDb = new ArrayList<>(0);
+                List<User> usersFromDb = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
                     if (user == null) {
                         return;
                     }
-                    if (!user.getId().equals(currentUser.getUid())) {
+                    if (!Objects.equals(user.getId(), currentUser.getUid())) {
                         usersFromDb.add(user);
                     }
                 }
@@ -71,7 +64,25 @@ public class UsersViewModel extends ViewModel {
         });
     }
 
+    public LiveData<FirebaseUser> getUser() {
+        return user;
+    }
+
+    public LiveData<List<User>> getUsers() {
+        return users;
+    }
+
+    public void setUserOnline(boolean isOnline) {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if (firebaseUser == null) {
+            return;
+        } else {
+            usersReferences.child(firebaseUser.getUid()).child("online").setValue(isOnline);
+        }
+    }
+
     public void logout() {
+        setUserOnline(false);
         auth.signOut();
     }
 }
